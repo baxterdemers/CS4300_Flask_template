@@ -3,7 +3,12 @@ from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 
 project_name = "Presidential Bubble Burster"
-net_id = "Baxter Demers: bld54"
+net_id = " Baxter Demers: bld54,
+		\n Alex Ciampaglia: adc226,
+		\n Maya Frai: myf4,
+		\n Andrea Yang: yy545
+		\n Sofie Cornelis: sac338
+		"
 
 @irsystem.route('/', methods=['GET'])
 def search():
