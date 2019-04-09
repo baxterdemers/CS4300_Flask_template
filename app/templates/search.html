@@ -1,39 +1,73 @@
 <html>
     <head>
-        <link rel="stylesheet" href="/static/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/main.css">
+        <link rel="stylesheet" href="../static/bootstrap.min.css">
+        <link rel="stylesheet" href="../static/main.css">
     </head>
     <body>
         <div class="topcorner">
-            <p>Project Name: {{ name }}</p>
-            <p>Student Name: ({{ netid }})</p>
+            <p>Project Name: Behind The Topic</p>
+            <p>Student Names: Maya, Sofie, Baxter, Andrea, Alex</p>
         </div>
         <form class="form-inline global-search">
-            <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
-                C
-                <font color=#EA4335>S</font>
-                <font color=#FBBC05>4</font>
-                3
-                <font color=#34A853>0</font>
-                <font color=#EA4335>0</font>
+            <h1 style="font-size: 55px; font-family:Avenir-Heavy; color: #4285F4">
+                Who's Behind The Topic?
             </h1>
-            
+
+            <p class="description" style="font-size: 18px; font-family:Avenir; color: black">
+                Curious to know the key figures relevant to a particular topic? Think of a topic you’d like to know more about and we’ll tell you who the main people are that contribute to the conversation, advocate for pro/con, and what they inform the public about in relation to the topic.
+            </p>
+
             <br><br>
-            
+
             <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" placeholder="Your Input">
+                <input id="input" type="text" name="search" class="form-control" placeholder="What topic would you like to learn more about?">
             </div>
-            <button type="submit" class="btn btn-info"> Go! </button>
+            <button type="submit" class="btn btn-info"> Go </button>
+
+            <br><br><br>
+
+
+            <!-- Suggested Searches -->
+            <h3 style="font-size: 20px; font-family:Avenir-Heavy; color: #4285F4">
+                Suggested Searches
+            </h3>
+            <br><br>
+
+            <div class="buttons">
+              <input id="button" type="button" value="Gun Control" name="but1" onclick="populateTextarea(this.value)">
+
+              <input id="button" type="button" value="Green New Deal" name="but1" onclick="populateTextarea(this.value)">
+
+              <input id="button" type="button" value="Data Privacy" name="but1" onclick="populateTextarea(this.value)">
+
+              <input id="button" type="button" value="Immigration" name="but1" onclick="populateTextarea(this.value)">
+
+              <input id="button" type="button" value="Mueller Report" name="but1" onclick="populateTextarea(this.value)">
+
+              <input id="button" type="button" value="Equal Pay" name="but1" onclick="populateTextarea(this.value)">
+            </div>
+
         </form>
-        <form class="form-inline global-search">
+
+
+        <!-- <form class="form-inline global-search">
         {% if data %}
             <h1>{{output_message}}</h1>
-            {% for d in data %}  
+            {% for d in data %}
                 <br>
                 <p>{{d}}</p>
             {% endfor %}
         {% endif %}
-        </form>
+        </form> -->
     </body>
+
+    <script>
+    function populateTextarea(num) {
+    var txt = document.getElementById("input").value;
+
+    document.getElementById("input").value = num;
+ }
+    </script>
+
 
 </html>
