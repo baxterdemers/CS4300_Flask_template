@@ -2,15 +2,17 @@
     <head>
         <link rel="stylesheet" href="../static/bootstrap.min.css">
         <link rel="stylesheet" href="../static/main.css">
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+
     </head>
     <body>
         <div class="topcorner">
-            <p>Project Name: Behind The Topic</p>
-            <p>Student Names: Maya, Sofie, Baxter, Andrea, Alex</p>
+            <p>Project Name: {{ name }}</p>
+            <p>Student Names: {{ netid }}</p>
         </div>
-        <form class="form-inline global-search">
+        <form autocomplete="off" class="form-inline global-search">
             <h1 style="font-size: 55px; font-family:Avenir-Heavy; color: #4285F4">
-                Who's Behind The Topic?
+                Who's Behind The Topic? 👩🏽‍💻
             </h1>
 
             <p class="description" style="font-size: 18px; font-family:Avenir; color: black">
@@ -25,7 +27,6 @@
             <button type="submit" class="btn btn-info"> Go </button>
 
             <br><br><br>
-
 
             <!-- Suggested Searches -->
             <h3 style="font-size: 20px; font-family:Avenir-Heavy; color: #4285F4">
@@ -49,18 +50,24 @@
 
         </form>
 
-
-        <!-- <form class="form-inline global-search">
+        <form class="form-inline global-search">
         {% if data %}
-            <h1>{{output_message}}</h1>
+            <h1 id="query-msg">{{output_message}}</h1>
             {% for d in data %}
                 <br>
-                <p>{{d}}</p>
+                <div class="person-card">
+                    <h1> {{d}} </h1><br/>
+                    <p> <a href="">{{link}}</a></p>
+                </div>
             {% endfor %}
         {% endif %}
-        </form> -->
+        <br>
+
+        </form>
+
     </body>
 
+    <!-- Populate the text input -->
     <script>
     function populateTextarea(num) {
     var txt = document.getElementById("input").value;
@@ -68,6 +75,88 @@
     document.getElementById("input").value = num;
  }
     </script>
+
+
+    <!-- Search auto-fill -->
+    <!-- Utilized auto-complete tutorial from following source: https://www.w3schools.com/howto/howto_js_autocomplete.asp -->
+    <script>
+
+      function autocomplete(inp, arr) {
+
+          var currentFocus;
+          inp.addEventListener("input", function(e) {
+              var a, b, i, val = this.value;
+              closeAllLists();
+              if (!val) { return false;}
+              currentFocus = -1;
+              a = document.createElement("DIV");
+              a.setAttribute("id", this.id + "autocomplete-list");
+              a.setAttribute("class", "autocomplete-items");
+              this.parentNode.appendChild(a);
+              for (i = 0; i < arr.length; i++) {
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                  b = document.createElement("DIV");
+                  b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                  b.innerHTML += arr[i].substr(val.length);
+                  b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                      b.addEventListener("click", function(e) {
+                      inp.value = this.getElementsByTagName("input")[0].value;
+                      closeAllLists();
+                  });
+                  a.appendChild(b);
+                }
+              }
+          });
+          inp.addEventListener("keydown", function(e) {
+              var x = document.getElementById(this.id + "autocomplete-list");
+              if (x) x = x.getElementsByTagName("div");
+              if (e.keyCode == 40) {
+                currentFocus++;
+                addActive(x);
+              } else if (e.keyCode == 38) { //up
+                currentFocus--;
+                addActive(x);
+              } else if (e.keyCode == 13) {
+                e.preventDefault();
+                if (currentFocus > -1) {
+                  if (x) x[currentFocus].click();
+                }
+              }
+          });
+          function addActive(x) {
+            if (!x) return false;
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            x[currentFocus].classList.add("autocomplete-active");
+          }
+          function removeActive(x) {
+            for (var i = 0; i < x.length; i++) {
+              x[i].classList.remove("autocomplete-active");
+            }
+          }
+          function closeAllLists(elmnt) {
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+              if (elmnt != x[i] && elmnt != inp) {
+              x[i].parentNode.removeChild(x[i]);
+            }
+          }
+        }
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+        }
+    </script>
+
+    <script>
+    
+    // <!-- Get list of topics -->
+      var topics = {{topics | safe}}
+      autocomplete(document.getElementById("input"), topics);
+    </script>
+
+    <!-- End auto-complete code -->
 
 
 </html>
