@@ -1,0 +1,10 @@
+CREATE TABLE articles(
+doc_id serial PRIMARY KEY,
+doc TEXT NOT NULL,
+title TEXT NOT NULL,
+description TEXT NOT NULL,
+content TEXT NOT NULL,
+url TEXT NOT NULL,
+source VARCHAR (150) NOT NULL,
+date DATE
+);
