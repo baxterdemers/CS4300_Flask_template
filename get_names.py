@@ -2,6 +2,7 @@ import psycopg2
 import nltk
 import pickle
 from collections import Counter
+import time
 documents = []
 #fake_datums = [[0, "We are currently sitting in Upson Hall people are loud and someone, John Manboy at a really not pleaseant smelling dinner from Mac's Cafe."], [1, "Not only does Seth enjoy dinners from Mac's Cafe, he also reads the newspaper quite frequently. This newspaper is the Cornell Daily Sun."], [2, "Seth Manboy also enjoys volunteering at a local elementary school, South Hill Elementary, on Sundays. He hates frogs."]]
 # data is list lists
@@ -49,6 +50,8 @@ def connect(topic):
 # later, we may change data to be [[doc_id, desciption, content], ...]
 # since the title which is in doc is all capatilized
 def get_names(topic):
+    start_time = time.time()
+    print("Start time" + str(start_time))
     #people contains all proper nouns from all articles related to the topic queried
     connect(topic)
     people = []
@@ -71,6 +74,8 @@ def get_names(topic):
         print(name[0])
         f.write(name[0])
         f.write("\n")
+    execution_time = time.time() - start_time
+    print("Time to run" + str(execution_time))
 
 
 #TODO don't just pass in documents below, filter the documents for the topic that was queried
