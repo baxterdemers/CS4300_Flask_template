@@ -3,9 +3,9 @@ import requests
 import psycopg2
 
 hostname = 'localhost'
-username = 'baxterdemers'
+username = 'andreayang'
 password = ''
-database = 'baxterdemers'
+database = 'andreayang'
 
 pageSize = 100
 pages = 10000
