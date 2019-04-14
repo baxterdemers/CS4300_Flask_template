@@ -8,37 +8,39 @@ documents = []
 # data = [[doc_id, doc], ...]
 # later, we may change data to be [[doc_id, desciption, content], ...]
 # since the title which is in doc is all capatilized
-connection = None
-try:
-    connection = psycopg2.connect(
-      user = "andreayang",
-                                  password = "",
-                                  dbname = "andreayang")
-    cursor = connection.cursor()
-    # Print PostgreSQL Connection properties
-    print ( connection.get_dsn_parameters(),"\n")
-    # Print PostgreSQL version
-    cursor.execute("SELECT version();")
-    record = cursor.fetchone()
-    print("You are connected to - ", record,"\n")
 
-    postgreSQL_select_Query = "select * from articles"
-    cursor.execute(postgreSQL_select_Query)
-    document_records = cursor.fetchall()
+def connect(topic):
+    connection = None
+    try:
+        connection = psycopg2.connect(
+          user = "andreayang",
+                                      password = "",
+                                      dbname = "andreayang")
+        cursor = connection.cursor()
+        # Print PostgreSQL Connection properties
+        print ( connection.get_dsn_parameters(),"\n")
+        # Print PostgreSQL version
+        cursor.execute("SELECT version();")
+        record = cursor.fetchone()
+        print("You are connected to - ", record,"\n")
 
-    for row in document_records:
-        documents.append([row[0], row[4]])
-        print("doc_id = ", row[0], )
-        print("content = ", row[4], "\n")
-    print("Data read successfully in PostgreSQL ")
-except (Exception, psycopg2.Error) as error :
-    print ("Error while connecting to PostgreSQL", error)
-finally:
-    #closing database connection.
-        if(connection != None):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
+        postgreSQL_select_Query = "select * from articles where topic = '" + str(topic) + "'"
+        cursor.execute(postgreSQL_select_Query)
+        document_records = cursor.fetchall()
+
+        for row in document_records:
+            documents.append([row[0], row[4]])
+            print("doc_id = ", row[0], )
+            print("content = ", row[4], "\n")
+        print("Data read successfully in PostgreSQL ")
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while connecting to PostgreSQL", error)
+    finally:
+        #closing database connection.
+            if(connection != None):
+                cursor.close()
+                connection.close()
+                print("PostgreSQL connection is closed")
 
 #nltk.download();
 
@@ -46,10 +48,11 @@ finally:
 # data = [[doc_id, doc], ...]
 # later, we may change data to be [[doc_id, desciption, content], ...]
 # since the title which is in doc is all capatilized
-def get_names(data):
+def get_names(topic):
     #people contains all proper nouns from all articles related to the topic queried
+    connect(topic)
     people = []
-    for article in data:
+    for article in documents:
         text = article[1]
         tokens = nltk.tokenize.word_tokenize(text) #tokenize to remove punctuation
         token_to_pos = nltk.pos_tag(tokens) #returns list of tuples ([token, pos])

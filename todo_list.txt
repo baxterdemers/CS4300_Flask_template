@@ -1,0 +1,10 @@
+TODO LIST:
+
+Functionality
+	Combining first and last name
+	Fuzzy string matching for topic
+	Link to Articles
+
+Optimization:
+	Store in Inverted Index instead of counter
+
