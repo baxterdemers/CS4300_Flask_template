@@ -71,7 +71,6 @@ def get_names(topic):
     #writing to a file the top 50 most common proper nouns in descending order
     f = open("name_list.txt","w")
     for name in Counter(people).most_common(50):
-        print(name[0])
         f.write(name[0])
         f.write("\n")
     execution_time = time.time() - start_time
