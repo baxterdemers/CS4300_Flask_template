@@ -25,7 +25,7 @@ def connect(topic):
         record = cursor.fetchone()
         print("You are connected to - ", record,"\n")
 
-        postgreSQL_select_Query = "select * from articles where topic = '" + str(topic) + "'"
+        postgreSQL_select_Query = "select TOP 1000 * from articles where topic = '" + str(topic) + "'"
         cursor.execute(postgreSQL_select_Query)
         document_records = cursor.fetchall()
 
@@ -79,6 +79,6 @@ def get_names(topic):
 
 
 #TODO don't just pass in documents below, filter the documents for the topic that was queried
-eval(get_names(documents))
+eval(get_names('gun control'))
 #eval(get_names(fake_datums))
 print("done")
