@@ -6,5 +6,6 @@ description TEXT NOT NULL,
 content TEXT NOT NULL,
 url TEXT NOT NULL,
 source VARCHAR (150) NOT NULL,
-date DATE
+date DATE,
+topic TEXT
 );

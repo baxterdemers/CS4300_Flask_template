@@ -35,13 +35,14 @@ def populate_DB(query):
             source = article["source"]["name"]
             date = article["publishedAt"]
             idx = 0 
+            topic = query
             for i,c in enumerate(date):
                 if c.isalpha():
                     idx = i
                     break
             clipped_date = date[:idx]
-            curr.execute("INSERT INTO articles (doc, title, description, content, url, source, date) VALUES (%s, %s, %s, %s, %s, %s, %s);",
-            (doc, title, description, content, url, source, clipped_date))
+            curr.execute("INSERT INTO articles (doc, title, description, content, url, source, date, topic) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);",
+            (doc, title, description, content, url, source, clipped_date, topic))
         page += 1
         results_viewed += pageSize
 
