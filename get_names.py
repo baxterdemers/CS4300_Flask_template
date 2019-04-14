@@ -64,7 +64,7 @@ def get_names(topic):
         for subtree in tagged_tree.subtrees(filter=lambda t: t.label() == 'PERSON'):
             for leave in subtree.leaves():
                 people.append(leave[0])
-                print ("person=", leave)
+                #print ("person=", leave)
     print(people)
     print(Counter(people))
 
