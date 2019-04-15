@@ -38,14 +38,13 @@ def search():
 	get_names.connect(query)
 	get_names.get_names(query)
 
-	people_names = []
-
 	if not query:
-		data = []
+		people_names = []
 		output_message = ''
 		p_name = ''
 		p_link = ''
 	else:
+		people_names = []
 		output_message = "Your search: " + query
 		# data = ["Bernie Sanders", "AOC", "Elizabeth Warren"]
 		with open('name_list.txt') as f:

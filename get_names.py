@@ -18,7 +18,6 @@ def connect(topic):
                                       password = "",
                                       dbname = "andreayang")
         cursor = connection.cursor()
-        #print(topic)
         # Print PostgreSQL Connection properties
         print ( connection.get_dsn_parameters(),"\n")
         # Print PostgreSQL version
