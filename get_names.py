@@ -18,6 +18,7 @@ def connect(topic):
                                       password = "",
                                       dbname = "andreayang")
         cursor = connection.cursor()
+        #print(topic)
         # Print PostgreSQL Connection properties
         print ( connection.get_dsn_parameters(),"\n")
         # Print PostgreSQL version
@@ -25,7 +26,7 @@ def connect(topic):
         record = cursor.fetchone()
         print("You are connected to - ", record,"\n")
 
-        postgreSQL_select_Query = "select TOP 1000 * from articles where topic = '" + str(topic) + "'"
+        postgreSQL_select_Query = "select * from articles where topic = '" + str(topic) + "' LIMIT 1000"
         cursor.execute(postgreSQL_select_Query)
         document_records = cursor.fetchall()
 
@@ -53,7 +54,8 @@ def get_names(topic):
     start_time = time.time()
     print("Start time" + str(start_time))
     #people contains all proper nouns from all articles related to the topic queried
-    connect(topic)
+    connect(str(topic).lower())
+    #print(documents[0])
     people = []
     for article in documents:
         text = article[1]
@@ -64,9 +66,9 @@ def get_names(topic):
         for subtree in tagged_tree.subtrees(filter=lambda t: t.label() == 'PERSON'):
             for leave in subtree.leaves():
                 people.append(leave[0])
-                print ("person=", leave)
-    print(people)
-    print(Counter(people))
+                #print ("person=", leave)
+    #print(people)
+    #print(Counter(people))
 
     #writing to a file the top 50 most common proper nouns in descending order
     f = open("name_list.txt","w")
@@ -78,6 +80,6 @@ def get_names(topic):
 
 
 #TODO don't just pass in documents below, filter the documents for the topic that was queried
-eval(get_names('gun control'))
+#eval(get_names('gun control'))
 #eval(get_names(fake_datums))
 print("done")

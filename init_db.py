@@ -9,7 +9,7 @@ database = 'andreayang'
 
 pageSize = 100
 pages = 10000
-topics = ['gun control', 'Green New Deal', 'data privacy', 'immigration', 'mueller report', 'equal pay'] 
+topics = ['gun control', 'green new deal', 'data privacy', 'immigration', 'mueller report', 'equal pay'] 
 
 def populate_DB(query):
     data = requests.get("https://newsapi.org/v2/everything?q={}&pageSize={}&page={}&sortBy=relevancy&apiKey=954f0fb443054555a2ed307e8cc1dedd".format(query.strip(), pageSize, 1)).json()
