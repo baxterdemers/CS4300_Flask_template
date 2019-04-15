@@ -4,12 +4,12 @@ import pickle
 from collections import Counter
 import time
 documents = []
+
 #fake_datums = [[0, "We are currently sitting in Upson Hall people are loud and someone, John Manboy at a really not pleaseant smelling dinner from Mac's Cafe."], [1, "Not only does Seth enjoy dinners from Mac's Cafe, he also reads the newspaper quite frequently. This newspaper is the Cornell Daily Sun."], [2, "Seth Manboy also enjoys volunteering at a local elementary school, South Hill Elementary, on Sundays. He hates frogs."]]
 # data is list lists
 # data = [[doc_id, doc], ...]
 # later, we may change data to be [[doc_id, desciption, content], ...]
 # since the title which is in doc is all capatilized
-
 def connect(topic):
     connection = None
     try:
@@ -31,8 +31,8 @@ def connect(topic):
 
         for row in document_records:
             documents.append([row[0], row[4]])
-            print("doc_id = ", row[0], )
-            print("content = ", row[4], "\n")
+            #print("doc_id = ", row[0], )
+            #print("content = ", row[4], "\n")
         print("Data read successfully in PostgreSQL ")
     except (Exception, psycopg2.Error) as error :
         print ("Error while connecting to PostgreSQL", error)
@@ -42,7 +42,6 @@ def connect(topic):
                 cursor.close()
                 connection.close()
                 print("PostgreSQL connection is closed")
-
 #nltk.download();
 
 # data is list lists
@@ -53,7 +52,9 @@ def get_names(topic):
     start_time = time.time()
     print("Start time" + str(start_time))
     #people contains all proper nouns from all articles related to the topic queried
+    #print("Topic = ", topic)
     connect(str(topic).lower())
+    #print("# documents=", len(documents))
     #print(documents[0])
     people = []
     for article in documents:
@@ -70,15 +71,19 @@ def get_names(topic):
     #print(Counter(people))
 
     #writing to a file the top 50 most common proper nouns in descending order
-    f = open("name_list.txt","w")
-    for name in Counter(people).most_common(50):
+    #print("# people found=", len(people))
+    c = Counter(people)
+    f = open("name_list.txt","w+")
+    for name in c.most_common(50):
         f.write(name[0])
         f.write("\n")
+    f.close()
     execution_time = time.time() - start_time
-    print("Time to run" + str(execution_time))
+    documents.clear()
+    print("Time to run: " + str(execution_time))
 
 
 #TODO don't just pass in documents below, filter the documents for the topic that was queried
-#eval(get_names('gun control'))
+#eval(get_names(documents))
 #eval(get_names(fake_datums))
 print("done")

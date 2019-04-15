@@ -35,7 +35,7 @@ def search():
 	topics = jsonToTopics()
 
 	# call people parsing function to get list of people's names
-	get_names.connect(query)
+	#get_names.connect(query)
 	get_names.get_names(query)
 
 	if not query:
