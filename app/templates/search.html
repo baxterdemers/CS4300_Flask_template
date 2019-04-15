@@ -6,10 +6,10 @@
 
     </head>
     <body>
-        <div class="topcorner">
+        <!-- <div class="topcorner">
             <p>Project Name: {{ name }}</p>
             <p>Student Names: {{ netid }}</p>
-        </div>
+        </div> -->
         <form autocomplete="off" class="form-inline global-search">
             <h1 style="font-size: 55px; font-family:Avenir-Heavy; color: #4285F4">
                 Who's Behind The Topic? 👩🏽‍💻
@@ -157,6 +157,13 @@
     </script>
 
     <!-- End auto-complete code -->
+
+    <!-- Sticky footer w/ names -->
+    <footer id="sticky">
+      <div id="names">
+        <p> "{{ name }}" by {{ netid }} </p>
+    </div>
+    </footer>
 
 
 </html>
