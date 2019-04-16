@@ -7,7 +7,6 @@ sample_grammars
 book_grammars
 basque_grammars
 averaged_perceptron_tagger
-web-text
 city_database
 ptb
 toolbox
