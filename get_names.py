@@ -14,9 +14,9 @@ def connect(topic):
     connection = None
     try:
         connection = psycopg2.connect(
-          user = "andreayang",
-                                      password = "",
-                                      dbname = "andreayang")
+          user = "nmiwtqndtcgoca",
+                                      password = "9f9ffb245f59a92e4daa2c64e671661315a9778b47bbffd1c615f0d1bc113242",
+                                      dbname = "postgresql-rugged-70614")
         cursor = connection.cursor()
         # Print PostgreSQL Connection properties
         print ( connection.get_dsn_parameters(),"\n")
