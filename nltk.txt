@@ -1,0 +1,3 @@
+tokenize
+pos_tag
+ne_chunk
