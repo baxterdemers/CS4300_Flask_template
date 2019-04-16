@@ -46,7 +46,7 @@ def connect(topic):
                 cursor.close()
                 connection.close()
                 print("PostgreSQL connection is closed")
-nltk.download();
+#nltk.download();
 
 # data is list lists
 # data = [[doc_id, doc], ...]
