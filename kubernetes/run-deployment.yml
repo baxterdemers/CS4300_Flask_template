@@ -14,11 +14,11 @@ spec:
     spec:
       containers:
       - name: flask
-        image: <YOUR DOCKER USERNAME>/flask-template:v1
+        image: bld54/flask-template:v1
         env:
         - name: APP_SETTINGS
           value: config.DevelopmentConfig
         - name: DATABASE_URL
-          value: postgresql://localhost/my_app_db
+          value: jdbc:postgresql://35.236.208.84:5432/postgres
         ports:
         - containerPort: 5000
