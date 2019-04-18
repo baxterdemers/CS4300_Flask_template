@@ -11,17 +11,16 @@ documents = []
 # data = [[doc_id, doc], ...]
 # later, we may change data to be [[doc_id, desciption, content], ...]
 # since the title which is in doc is all capatilized
+
+hostname = '35.236.208.84'
+username = 'postgres'
+password = 'dnmSWIMS!'
+database = 'postgres'
+
 def connect(topic):
     connection = None
     try:
-        DATABASE_URL = os.environ['DATABASE_URL']
-
-        connection = psycopg2.connect(DATABASE_URL, sslmode='require')
-        # connection = psycopg2.connect(
-        #   user = "nmiwtqndtcgoca",
-        #   host = "ec2-54-225-129-101.compute-1.amazonaws.com",
-        #                               password = "9f9ffb245f59a92e4daa2c64e671661315a9778b47bbffd1c615f0d1bc113242",
-        #                               dbname = "dcvi9pmgc3a8qb")
+        connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
         cursor = connection.cursor()
         # Print PostgreSQL Connection properties
         print ( connection.get_dsn_parameters(),"\n")
