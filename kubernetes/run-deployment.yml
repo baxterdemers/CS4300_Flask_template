@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: flask
-        image: bld54/flask-template:v1
+        image: bld54/flask-template:v6
         env:
         - name: APP_SETTINGS
           value: config.DevelopmentConfig
