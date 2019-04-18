@@ -2,10 +2,10 @@ import json
 import requests
 import psycopg2
 
-hostname = 'localhost'
-username = 'andreayang'
-password = ''
-database = 'andreayang'
+hostname = '35.236.208.84'
+username = 'postgres'
+password = 'dnmSWIMS!'
+database = 'postgres'
 
 pageSize = 100
 pages = 10000
