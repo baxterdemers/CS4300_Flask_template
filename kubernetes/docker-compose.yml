@@ -1,5 +1,5 @@
 flask:
-    image: bld54/flask-template:v1
+    image: bld54/flask-template:v6
     ports:
       - "5000:5000"
     environment:
