@@ -1,5 +1,8 @@
+import nltk
+
 def parse_document(text):
     people = []
+    people_str = ""
     tokens = nltk.tokenize.word_tokenize(text) #tokenize to remove punctuation
     token_to_pos = nltk.pos_tag(tokens) #returns list of tuples ([token, pos])
     tagged_tree = nltk.ne_chunk(token_to_pos) #tags named entities with PERSON, ORGANIZATION, GPE, etc, returns as a NLTK tree
@@ -11,6 +14,7 @@ def parse_document(text):
 #             print(leave)
             entity = entity + " " + leave[0]
         people.append(entity.strip())  #strip to remove space before name
+        people_str += "," + entity.strip()
 #         print()
 
-    return people
+    return people_str, people

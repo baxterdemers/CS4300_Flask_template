@@ -5,6 +5,7 @@ import nltk
 from collections import defaultdict
 from nltk.corpus import stopwords
 import pickle
+import parser
 
 hostname = '35.236.208.84'
 username = 'postgres'
@@ -22,7 +23,11 @@ good_types_set = set()
 persons_set = set()
 
 print("initiating DB connection…")
-myConnection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
+#myConnection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
+myConnection = psycopg2.connect(
+          user = "andreayang",
+                                      password = "",
+                                      dbname = "andreayang")
 curr = myConnection.cursor()
 print("connected…")
 
@@ -70,7 +75,8 @@ def populate_DB(query):
                     idx = i
                     break
             clipped_date = date[:idx]
-            people_str, people_lst = parse_document(doc)
+            #people_str, people_lst = parse_document(doc)
+            people_str, people_lst = parser.parse_document(doc)
             curr.execute("INSERT INTO articles (doc_id, doc, title, description, content, url, source, date, people) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);",
             (doc_id, doc, title, description, content, url, source, clipped_date, people_str))
 

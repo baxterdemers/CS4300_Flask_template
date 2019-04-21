@@ -32,7 +32,7 @@ def connect():
         record = cursor.fetchone()
         print("You are connected to - ", record,"\n")
 
-        postgreSQL_select_Query = "select * from articles where topic = 'gun control' LIMIT 300"
+        postgreSQL_select_Query = "select * from articles"
         cursor.execute(postgreSQL_select_Query)
         document_records = cursor.fetchall()
 
@@ -51,12 +51,6 @@ def connect():
                 connection.close()
                 print("PostgreSQL connection is closed")
 
-def closest_words(word_in, words_compressed, word_to_index, index_to_word, k = 10):
-    if word_in not in word_to_index: return {}
-    sims = words_compressed.dot(words_compressed[word_to_index[word_in],:])
-    asort = np.argsort(-sims)[:k+1]
-    return [(index_to_word[i],sims[i]/sims[asort[0]]) for i in asort[1:]]
-
 def svd():
     connect()
     vectorizer = TfidfVectorizer(stop_words = 'english', max_df = .7, min_df=.1)
@@ -69,25 +63,13 @@ def svd():
     index_to_word = {i:t for t,i in word_to_index.items()}
     u = normalize(u, axis = 1)
 
-    return word_to_index, index_to_word, u
+    with open('word_to_index.pickle', 'wb') as handle:
+        pickle.dump(word_to_index, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-word_to_index, index_to_word, u = svd()
+    with open('index_to_word.pickle', 'wb') as handle:
+        pickle.dump(index_to_word, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    
+    with open('u_matrix.pickle', 'wb') as handle:
+        pickle.dump(u, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-def process_query (query):
-    similar_words = {}
-
-    for word in str(query).split():
-        result = closest_words(word, u, word_to_index, index_to_word)
-        if (len(result) > 0):
-            for w, s in result:
-                if w not in similar_words:
-                    similar_words[w] = s
-                else:
-                    similar_words[w] += s
-
-    # return a list of similar words ranked by similarity, descending
-    ranked = [x[0] for x in sorted(similar_words.items(), key=lambda x:x[1], reverse=True)]
-    print(ranked)
-    return ranked
-
-
+#svd()
