@@ -6,7 +6,9 @@ ADD app /service/app
 ADD app.py /service/app.py
 ADD config.py /service/config.py
 ADD manage.py /service/manage.py
+ADD get_names.py /service/get_names.py
 ADD requirements.txt /service/requirements.txt
 WORKDIR /service/
 RUN pip install -r requirements.txt
+RUN python -m nltk.downloader all
 CMD python -u app.py $APP_SETTINGS $DATABASE_URL

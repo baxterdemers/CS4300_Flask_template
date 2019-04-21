@@ -1,7 +1,7 @@
 flask:
-    image: <YOUR DOCKER USERNAME>/flask-template:v1
+    image: bld54/flask-template:v6
     ports:
       - "5000:5000"
     environment:
     - APP_SETTINGS=config.ProductionConfig
-    - DATABASE_URL=postgresql://localhost/my_app_db
+    - DATABASE_URL=jdbc:postgresql://35.236.208.84:5432/postgres
