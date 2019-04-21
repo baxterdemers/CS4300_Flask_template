@@ -25,7 +25,8 @@ def connect(topic):
         record = cursor.fetchone()
         print("You are connected to - ", record,"\n")
 
-        postgreSQL_select_Query = "select * from articles where topic = '" + str(topic) + "' LIMIT 1000"
+
+        postgreSQL_select_Query = "select * from articles where topic = '" + str(topic) + "' LIMIT 300"
         cursor.execute(postgreSQL_select_Query)
         document_records = cursor.fetchall()
 
