@@ -36,9 +36,7 @@ def search():
 	# get list of topics for auto-complete
 	topics = jsonToTopics()
 
-	# call people parsing function to get list of people's names
-	#get_names.connect(query)
-	#get_names.get_names(query)
+	# get query result
 	get_query_results.process_query(query)
 
 	if not query:

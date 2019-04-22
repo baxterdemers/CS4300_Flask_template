@@ -3,15 +3,15 @@ import numpy as np
 import psycopg2
 from collections import Counter
 
+hostname = '35.236.208.84'
+username = 'postgres'
+password = 'dnmSWIMS!'
+database = 'postgres'
 names = []
 def connect(doc_id_lst):
     connection = None
     try:
-        #connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
-        connection = psycopg2.connect(
-          user = "andreayang",
-                                      password = "",
-                                      dbname = "andreayang")
+        connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
         cursor = connection.cursor()
         # Print PostgreSQL Connection properties
         print ( connection.get_dsn_parameters(),"\n")
@@ -93,8 +93,9 @@ def get_names_from_doc_ids (doc_ids):
     f = open("name_list.txt","w+")
     for name in c.most_common(50):
         if (name[0] != ""):
-            f.write(name[0])
-            f.write("\n")
+            if (name[0][0].isupper()):
+                f.write(name[0])
+                f.write("\n")
     f.close()
 
 def process_query(query):
