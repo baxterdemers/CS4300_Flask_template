@@ -45,18 +45,8 @@ def closest_words(word_in, words_compressed, word_to_index, index_to_word, k = 1
     asort = np.argsort(-sims)[:k+1]
     return [(index_to_word[i],sims[i]/sims[asort[0]]) for i in asort[1:]]
 
-def query_expansion (query):
+def query_expansion (query, word_to_index, index_to_word, u):
     similar_words = {}
-
-    with open('word_to_index.pickle', 'rb') as handle:
-        word_to_index = pickle.load(handle)
-
-    with open('index_to_word.pickle', 'rb') as handle:
-        index_to_word = pickle.load(handle)
-        
-    with open('u_matrix.pickle', 'rb') as handle:
-        u = pickle.load(handle)
-
     for word in str(query).split():
         result = closest_words(word, u, word_to_index, index_to_word)
         if (len(result) > 0):
@@ -70,18 +60,14 @@ def query_expansion (query):
     ranked = [x[0] for x in sorted(similar_words.items(), key=lambda x:x[1], reverse=True)]
     return ranked
 
-def get_doc_ids (query):
+def get_doc_ids (inverted_index, word_to_index, index_to_word, u, query):
     doc_id_list = []
-
-    with open('init_data_structures.pickle', 'rb') as handle:
-        inverted_index = pickle.load(handle)
-
     for word in str(query).lower().split():
         if word in inverted_index:
             doc_id_list.extend(inverted_index[word])
 
     # does not take into account order of rankings
-    expanded_words_ranked = query_expansion(query)
+    expanded_words_ranked = query_expansion(query, word_to_index, index_to_word, u)
     
     for word in expanded_words_ranked:
         if word in inverted_index:
@@ -102,7 +88,7 @@ def get_names_from_doc_ids (doc_ids):
                     f.write("\n")
         f.close()
 
-def process_query(query):
-    doc_id_list = get_doc_ids(query)
+def process_query(inverted_index, word_to_index, index_to_word, u, query):
+    doc_id_list = get_doc_ids(inverted_index, word_to_index, index_to_word, u, query)
     get_names_from_doc_ids(doc_id_list)
     names.clear()

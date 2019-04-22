@@ -10,6 +10,18 @@ import pickle
 project_name = "Behind The Topic"
 net_id = "Sofie Cornelis (sac338), Maya Frai (myf4), Baxter Demers (bld54), Andrea Yang (yy545), Alex Ciampaglia (adc226)"
 
+with open('init_data_structures.pickle', 'rb') as handle:
+	inverted_index = pickle.load(handle)
+
+with open('word_to_index.pickle', 'rb') as handle:
+	word_to_index = pickle.load(handle)
+		
+with open('index_to_word.pickle', 'rb') as handle:
+	index_to_word = pickle.load(handle)
+		
+with open('u_matrix.pickle', 'rb') as handle:
+	u = pickle.load(handle)
+
 # Creating json helper
 def make_topics():
 	data = {}
@@ -38,7 +50,7 @@ def search():
 	topics = jsonToTopics()
 
 	# get query result
-	get_query_results.process_query(query)
+	get_query_results.process_query(inverted_index, word_to_index, index_to_word, u, query)
 
 	if not query:
 		people_names = []
