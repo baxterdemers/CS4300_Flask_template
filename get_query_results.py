@@ -82,7 +82,7 @@ def get_doc_ids (inverted_index, word_to_index, index_to_word, u, query):
     return doc_id_list
 
 def get_names_from_doc_ids (doc_ids):
-    if (doc_ids != []):
+    if (len(doc_ids) != 0):
         connect(doc_ids)
         c = Counter(names)
         f = open("name_list.txt","w+")
