@@ -20,7 +20,11 @@ database = 'postgres'
 def connect(topic):
     connection = None
     try:
-        connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
+        #connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
+        connection = psycopg2.connect(
+          user = "andreayang",
+                                      password = "",
+                                      dbname = "andreayang")
         cursor = connection.cursor()
         # Print PostgreSQL Connection properties
         print ( connection.get_dsn_parameters(),"\n")
@@ -29,7 +33,7 @@ def connect(topic):
         record = cursor.fetchone()
         print("You are connected to - ", record,"\n")
 
-        postgreSQL_select_Query = "select * from articles where topic = '" + str(topic) + "' LIMIT 1000"
+        postgreSQL_select_Query = "select * from articles where topic = '" + str(topic) + "' LIMIT 300"
         cursor.execute(postgreSQL_select_Query)
         document_records = cursor.fetchall()
 

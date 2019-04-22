@@ -5,6 +5,7 @@ import nltk
 from collections import defaultdict
 from nltk.corpus import stopwords
 import pickle
+import parser
 
 hostname = '35.236.208.84'
 username = 'postgres'
@@ -23,20 +24,9 @@ persons_set = set()
 
 print("initiating DB connection…")
 myConnection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
+
 curr = myConnection.cursor()
 print("connected…")
-
-def parse_document(text):
-    people_str = ""
-    people_lst = []
-    tokens = nltk.tokenize.word_tokenize(text) #tokenize to remove punctuation
-    token_to_pos = nltk.pos_tag(tokens) #returns list of tuples ([token, pos])
-    tagged_tree = nltk.ne_chunk(token_to_pos, binary = False) #tags named entities with PERSON, ORGANIZATION, GPE, etc, returns as a NLTK tree
-    for subtree in tagged_tree.subtrees(filter=lambda t: t.label() == 'PERSON'):
-        for leave in subtree.leaves():
-            people_str += "," + leave[0]
-            people_lst.append(leave[0])
-    return (people_str, people_lst)
 
 def populate_DB(query):
     global doc_id
@@ -70,7 +60,8 @@ def populate_DB(query):
                     idx = i
                     break
             clipped_date = date[:idx]
-            people_str, people_lst = parse_document(doc)
+            #people_str, people_lst = parse_document(doc)
+            people_str, people_lst = parser.parse_document(doc)
             curr.execute("INSERT INTO articles (doc_id, doc, title, description, content, url, source, date, people) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);",
             (doc_id, doc, title, description, content, url, source, clipped_date, people_str))
 

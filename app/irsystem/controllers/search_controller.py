@@ -3,6 +3,8 @@ from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 import wikipedia
 import get_names
+import svd
+import get_query_results
 
 project_name = "Behind The Topic"
 net_id = "Sofie Cornelis (sac338), Maya Frai (myf4), Baxter Demers (bld54), Andrea Yang (yy545), Alex Ciampaglia (adc226)"
@@ -36,7 +38,8 @@ def search():
 
 	# call people parsing function to get list of people's names
 	#get_names.connect(query)
-	get_names.get_names(query)
+	#get_names.get_names(query)
+	get_query_results.process_query(query)
 
 	if not query:
 		people_names = []
