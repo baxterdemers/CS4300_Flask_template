@@ -49,9 +49,9 @@ def connect():
 
 def svd():
     connect()
-    vectorizer = TfidfVectorizer(stop_words = 'english', max_df = .7, min_df=.1)
+    vectorizer = TfidfVectorizer(stop_words = 'english', max_df = .7, min_df=75)
     matrix = vectorizer.fit_transform(documents).transpose()
-    #print("matrix shape =", matrix.shape)
+    print("matrix shape =", matrix.shape)
 
     u, s, v_trans = svds(matrix, k=10)
     #print("u shape =", u.shape)
@@ -68,4 +68,4 @@ def svd():
     with open('u_matrix.pickle', 'wb') as handle:
         pickle.dump(u, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-svd()
+#svd()
