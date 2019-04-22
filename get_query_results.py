@@ -61,18 +61,23 @@ def query_expansion (query, word_to_index, index_to_word, u):
     return ranked
 
 def get_doc_ids (inverted_index, word_to_index, index_to_word, u, query):
-    doc_id_list = []
+    doc_id_list = set()
     for word in str(query).lower().split():
         if word in inverted_index:
-            doc_id_list.extend(inverted_index[word])
+            if (len(doc_id_list) == 0):
+                doc_id_list = set(inverted_index[word])
+            else:
+                doc_id_list.intersection(set(inverted_index[word]))
 
     # does not take into account order of rankings
     expanded_words_ranked = query_expansion(query, word_to_index, index_to_word, u)
     
     for word in expanded_words_ranked:
         if word in inverted_index:
-            docs = inverted_index[word]
-            doc_id_list.extend(docs)
+            if (len(doc_id_list) == 0):
+                doc_id_list = set(inverted_index[word])
+            else:
+                doc_id_list.intersection(set(inverted_index[word]))
 
     return doc_id_list
 
