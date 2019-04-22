@@ -76,4 +76,4 @@ def write_ii():
     with open('init_data_structures.pickle', 'wb') as handle:
         pickle.dump(inverted_index, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-#write_ii()
+write_ii()

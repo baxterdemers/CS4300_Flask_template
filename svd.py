@@ -68,4 +68,4 @@ def svd():
     with open('u_matrix.pickle', 'wb') as handle:
         pickle.dump(u, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-#svd()
+svd()
