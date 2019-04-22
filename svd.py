@@ -19,11 +19,7 @@ database = 'postgres'
 def connect():
     connection = None
     try:
-        # connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
-        connection = psycopg2.connect(
-          user = "andreayang",
-                                      password = "",
-                                      dbname = "andreayang")
+        connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
         cursor = connection.cursor()
         # Print PostgreSQL Connection properties
         print ( connection.get_dsn_parameters(),"\n")
