@@ -5,6 +5,7 @@ import wikipedia
 import get_names
 import svd
 import get_query_results
+import pickle
 
 project_name = "Behind The Topic"
 net_id = "Sofie Cornelis (sac338), Maya Frai (myf4), Baxter Demers (bld54), Andrea Yang (yy545), Alex Ciampaglia (adc226)"

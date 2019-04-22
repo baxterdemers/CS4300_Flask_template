@@ -22,6 +22,7 @@ sw = set(stopwords.words("english"))
 good_types_set = set()
 persons_set = set()
 
+print("in init_db")
 print("initiating DB connection…")
 myConnection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
 
