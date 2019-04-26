@@ -6,10 +6,10 @@
 
     </head>
     <body>
-        <!-- <div class="topcorner">
-            <p>Project Name: {{ name }}</p>
-            <p>Student Names: {{ netid }}</p>
-        </div> -->
+        <div class="topcorner">
+            <p><a href="https://behind-the-topic.herokuapp.com">Prototype 1</a> </p>
+            <p><a href="http://35.245.110.151:5000/">Prototype 2</a> </p>
+        </div>
         <form autocomplete="off" class="form-inline global-search">
             <h1 style="font-size: 55px; font-family:Avenir-Heavy; color: #4285F4">
                 Who's Behind The Topic? 👩🏽‍💻
@@ -24,7 +24,7 @@
             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="What topic would you like to learn more about?">
             </div>
-            <button type="submit" class="btn btn-info"> Go </button>
+            <button id="go-btn" type="submit" class="btn btn-info"> Go </button>
 
             <br><br><br>
 
@@ -50,20 +50,41 @@
 
         </form>
 
-        <form class="form-inline global-search">
+        <!-- <form class="form-inline global-search">
         {% if data %}
             <h1 id="query-msg">{{output_message}}</h1>
+            <div class="person-container">
             {% for d in data %}
                 <br>
                 <div class="person-card">
                     <h1> {{d}} </h1><br/>
-                    <p> <a href="">{{link}}</a></p>
+                      <p> <a href="{{l}}">View Suggested Article</a></p>
                 </div>
+                <br>
+              </div>
             {% endfor %}
         {% endif %}
         <br>
+        </form> -->
 
+        <form class="form-inline global-search">
+        {% if data %}
+            <h1 id="query-msg">{{output_message}}</h1>
+            <div class="person-container">
+            {% for d in range(data | length) %}
+                <br>
+                <div class="person-card">
+                    <h1> {{data[d]}} </h1><br/>
+                    <p> <a href="{{links[d]}}">View Suggested Article</a></p>
+                </div>
+                <br>
+              </div>
+            {% endfor %}
+        {% endif %}
+        <br>
         </form>
+
+
 
     </body>
 
@@ -164,6 +185,17 @@
         <p> "{{ name }}" by {{ netid }} </p>
     </div>
     </footer>
+
+    <!-- button enter click -->
+    <script>
+      var input = document.getElementById("input");
+      input.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+         event.preventDefault();
+         document.getElementById("go-btn").click();
+        }
+      });
+    </script>
 
 
 </html>

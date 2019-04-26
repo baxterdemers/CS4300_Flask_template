@@ -15,10 +15,10 @@ with open('init_data_structures.pickle', 'rb') as handle:
 
 with open('word_to_index.pickle', 'rb') as handle:
 	word_to_index = pickle.load(handle)
-		
+
 with open('index_to_word.pickle', 'rb') as handle:
 	index_to_word = pickle.load(handle)
-		
+
 with open('u_matrix.pickle', 'rb') as handle:
 	u = pickle.load(handle)
 
@@ -54,17 +54,21 @@ def search():
 
 	if not query:
 		people_names = []
+		links_list = []
 		output_message = ''
-		p_name = ''
-		p_link = ''
 	else:
 		people_names = []
+		links_list = []
 		output_message = "Your search: " + query
 		# data = ["Bernie Sanders", "AOC", "Elizabeth Warren"]
 		with open('name_list.txt') as f:
 			for line in f:
 					people_names.append(line)
+		with open('link_list.txt') as f:
+			for line in f:
+					links_list.append(line)
+
 
 		p_name = "Bernie Sanders"
-		p_link = "Link"
-	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=people_names, person_name=p_name, link=p_link, topics=topics)
+		# p_link = "View Suggested Article"
+	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=people_names, person_name=p_name, links=links_list, topics=topics)

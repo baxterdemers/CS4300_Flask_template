@@ -37,10 +37,9 @@ padding-bottom: 15px;
 
 .description {
   text-align: center;
-  padding-top: 30px;
-  padding-right: 300px;
-  padding-left: 300px;
-  padding-bottom: 30px;
+  margin-top: 30px;
+  margin-left: 200px;
+  margin-right: 200px;
 
 }
 .list {
@@ -74,10 +73,12 @@ color: #4285F4;
 }
 
 /* people results CSS */
+
 .person-card {
-  margin-left: 350px;
+  flex: 1;
+  order: 1;
+   margin-left: 350px;
   margin-right: 350px;
-  width: 50%;
   font-family: Avenir;
   margin-top: 25px;
   text-align: center;
@@ -87,6 +88,7 @@ color: #4285F4;
   padding-bottom: 10px;
   transition: 0.3s;
 }
+
 
 .person-card:hover {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);

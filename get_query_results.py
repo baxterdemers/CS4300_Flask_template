@@ -8,6 +8,7 @@ username = 'postgres'
 password = 'dnmSWIMS!'
 database = 'postgres'
 names = []
+links_dict = {}
 def connect(doc_id_lst):
     connection = None
     try:
@@ -19,7 +20,7 @@ def connect(doc_id_lst):
         cursor.execute("SELECT version();")
         record = cursor.fetchone()
         print("You are connected to - ", record,"\n")
-        
+
         tup_str = tuple(doc_id_lst)
         postgreSQL_select_Query = "select * from articles where doc_id in %(tup_str)s"
         cursor.execute(postgreSQL_select_Query, {'tup_str': tup_str})
@@ -27,6 +28,9 @@ def connect(doc_id_lst):
 
         for row in document_records:
             names_list = row[-1].split(',')
+            link = row[5]
+            for name in names_list:
+                links_dict[name] = link
             names.extend(names_list)
 
         print("Data read successfully in PostgreSQL ")
@@ -71,7 +75,7 @@ def get_doc_ids (inverted_index, word_to_index, index_to_word, u, query):
 
     # does not take into account order of rankings
     expanded_words_ranked = query_expansion(query, word_to_index, index_to_word, u)
-    
+
     for word in expanded_words_ranked:
         if word in inverted_index:
             if (len(doc_id_list) == 0):
@@ -92,8 +96,23 @@ def get_names_from_doc_ids (doc_ids):
                     f.write(name[0])
                     f.write("\n")
         f.close()
+    return c
+
+def create_link_file(doc_id_list):
+    c = get_names_from_doc_ids(doc_id_list)
+    f = open("link_list.txt","w+")
+    for name in c.most_common(20):
+        if (name[0] != ""):
+            link = links_dict[name[0]]
+            f.write(str(link))
+            f.write("\n")
+    f.close()
+
+
+
 
 def process_query(inverted_index, word_to_index, index_to_word, u, query):
     doc_id_list = get_doc_ids(inverted_index, word_to_index, index_to_word, u, query)
     get_names_from_doc_ids(doc_id_list)
+    create_link_file(doc_id_list)
     names.clear()
