@@ -2,6 +2,7 @@ import pickle
 import numpy as np
 import psycopg2
 from collections import Counter
+import requests
 
 hostname = '35.236.208.84'
 username = 'postgres'
@@ -9,6 +10,12 @@ password = 'dnmSWIMS!'
 database = 'postgres'
 names = []
 links_dict = {}
+
+data = requests.get('https://newsapi.org/v2/sources?apiKey=954f0fb443054555a2ed307e8cc1dedd').json()
+sources = set()
+for source in data["sources"]:
+    sources.add(source["name"].lower())
+
 def connect(doc_id_lst):
     connection = None
     try:
@@ -85,10 +92,51 @@ def get_doc_ids (inverted_index, word_to_index, index_to_word, u, query):
 
     return doc_id_list
 
-def get_names_from_doc_ids (doc_ids):
-    if (len(doc_ids) != 0):
+def get_names_from_doc_ids(doc_ids,query):
+    if (len(doc_ids) != 0 and query):
         connect(doc_ids)
         c = Counter(names)
+        del c['']
+        c_top = c.most_common(100)
+
+        for name, name_count in c_top:
+            if name.lower() in query.lower() or name.isupper() or name.lower() in sources:
+                c[name] = 0
+
+        for name, name_count in c.most_common(100):
+            closest_match = ""
+            closest_len = 100
+            min_occurence_delta = 1000
+            match_occurences = 0
+            for nmprime,npr_count in c.most_common(100):
+                name_prime = nmprime.strip()
+                prime_len = len(name_prime.split())
+                if name != name_prime and name in name_prime and prime_len <= 2:
+                    len_diff = len(name_prime) - len(name)
+                    occurence_delta = abs(name_count - npr_count)
+                    if occurence_delta < min_occurence_delta:
+                        print("true : {} < {}".format(name,name_prime))
+                        closest_len = len_diff
+                        closest_match = name_prime
+                        min_occurence_delta = occurence_delta
+                        match_occurences = npr_count
+                        
+            if closest_match != "":
+                print("closest match: {}".format(closest_match))
+                if match_occurences/name_count > .25:
+                    print("{} gets {} count".format(closest_match, name))
+                    c[closest_match] += name_count
+                    del c[name]
+                else:
+                    if name_count < match_occurences:
+                        print("{} gets {} count".format(closest_match, name))
+                        c[closest_match] += name_count
+                        del c[name]
+                    else:
+                        print("{} gets {} count".format(name, closest_match))
+                        c[name] += match_occurences
+                        del c[closest_match]
+
         f = open("name_list.txt","w+")
         for name in c.most_common(20):
             if (name[0] != ""):
@@ -96,10 +144,10 @@ def get_names_from_doc_ids (doc_ids):
                     f.write(name[0])
                     f.write("\n")
         f.close()
-    return c
+        return c
+    return Counter()
 
-def create_link_file(doc_id_list):
-    c = get_names_from_doc_ids(doc_id_list)
+def create_link_file(doc_id_list, c):
     f = open("link_list.txt","w+")
     for name in c.most_common(20):
         if (name[0] != ""):
@@ -108,11 +156,9 @@ def create_link_file(doc_id_list):
             f.write("\n")
     f.close()
 
-
-
-
-def process_query(inverted_index, word_to_index, index_to_word, u, query):
+def process_query(inverted_index, word_to_index, index_to_word, u, query=None):
     doc_id_list = get_doc_ids(inverted_index, word_to_index, index_to_word, u, query)
-    get_names_from_doc_ids(doc_id_list)
-    create_link_file(doc_id_list)
+    c = get_names_from_doc_ids(doc_id_list, query)
+    create_link_file(doc_id_list, c)
     names.clear()
+

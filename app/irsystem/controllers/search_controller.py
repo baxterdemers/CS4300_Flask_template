@@ -2,15 +2,13 @@ from . import *
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 import wikipedia
-import get_names
-import svd
 import get_query_results
 import pickle
 
 project_name = "Behind The Topic"
 net_id = "Sofie Cornelis (sac338), Maya Frai (myf4), Baxter Demers (bld54), Andrea Yang (yy545), Alex Ciampaglia (adc226)"
 
-with open('init_data_structures.pickle', 'rb') as handle:
+with open('invereted_index.pickle', 'rb') as handle:
 	inverted_index = pickle.load(handle)
 
 with open('word_to_index.pickle', 'rb') as handle:
@@ -60,15 +58,17 @@ def search():
 		people_names = []
 		links_list = []
 		output_message = "Your search: " + query
-		# data = ["Bernie Sanders", "AOC", "Elizabeth Warren"]
 		with open('name_list.txt') as f:
 			for line in f:
 					people_names.append(line)
 		with open('link_list.txt') as f:
 			for line in f:
 					links_list.append(line)
+		for i, person_i in enumerate(people_names):
+			for j, person_j in enumerate(people_names):
+				if i!=j and person_i in person_j:
+					people_names.pop(i)
+					links_list.pop(i)
+					break
 
-
-		p_name = "Bernie Sanders"
-		# p_link = "View Suggested Article"
-	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=people_names, person_name=p_name, links=links_list, topics=topics)
+	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=people_names, links=links_list, topics=topics)
