@@ -24,13 +24,13 @@ def connect():
         record = cursor.fetchone()
         print("You are connected to - ", record,"\n")
 
-        postgreSQL_select_Query = "select * from articles"
+        postgreSQL_select_Query = "select * from production_tbl"
         cursor.execute(postgreSQL_select_Query)
         document_records = cursor.fetchall()
 
         print(len(document_records))
         for row in document_records:
-            documents.append([row[0], row[4]])
+            documents.append([row[0], row[1]])
             #print("doc_id = ", row[0], )
             #print("content = ", row[4], "\n")
         print("Data read successfully in PostgreSQL ")
@@ -73,7 +73,7 @@ def write_ii():
                 inverted_index[word] = old_list
     print(inverted_index)
 
-    with open('init_data_structures.pickle', 'wb') as handle:
+    with open('inverted_index.pickle', 'wb') as handle:
         pickle.dump(inverted_index, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-#write_ii()
+write_ii()

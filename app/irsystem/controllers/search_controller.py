@@ -8,7 +8,7 @@ import pickle
 project_name = "Behind The Topic"
 net_id = "Sofie Cornelis (sac338), Maya Frai (myf4), Baxter Demers (bld54), Andrea Yang (yy545), Alex Ciampaglia (adc226)"
 
-with open('invereted_index.pickle', 'rb') as handle:
+with open('inverted_index.pickle', 'rb') as handle:
 	inverted_index = pickle.load(handle)
 
 with open('word_to_index.pickle', 'rb') as handle:
@@ -53,10 +53,14 @@ def search():
 	if not query:
 		people_names = []
 		links_list = []
+		titles_list = []
+		desc_list = []
 		output_message = ''
 	else:
 		people_names = []
 		links_list = []
+		titles_list = []
+		desc_list = []
 		output_message = "Your search: " + query
 		with open('name_list.txt') as f:
 			for line in f:
@@ -64,11 +68,11 @@ def search():
 		with open('link_list.txt') as f:
 			for line in f:
 					links_list.append(line)
-		for i, person_i in enumerate(people_names):
-			for j, person_j in enumerate(people_names):
-				if i!=j and person_i in person_j:
-					people_names.pop(i)
-					links_list.pop(i)
-					break
+		with open('title_list.txt') as f:
+			for line in f:
+					titles_list.append(line)
+		with open('desc_list.txt') as f:
+			for line in f:
+					desc_list.append(line)
+	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=people_names, links=links_list, topics=topics, titles=titles_list, descriptions=desc_list)
 
-	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=people_names, links=links_list, topics=topics)

@@ -50,35 +50,22 @@
 
         </form>
 
-        <!-- <form class="form-inline global-search">
-        {% if data %}
-            <h1 id="query-msg">{{output_message}}</h1>
-            <div class="person-container">
-            {% for d in data %}
-                <br>
-                <div class="person-card">
-                    <h1> {{d}} </h1><br/>
-                      <p> <a href="{{l}}">View Suggested Article</a></p>
-                </div>
-                <br>
-              </div>
-            {% endfor %}
-        {% endif %}
-        <br>
-        </form> -->
-
         <form class="form-inline global-search">
         {% if data %}
             <h1 id="query-msg">{{output_message}}</h1>
             <div class="person-container">
             {% for d in range(data | length) %}
+              {% if data|length == descriptions|length %}
                 <br>
+                <h1 id="name"> {{data[d]}} </h1><br/>
                 <div class="person-card">
-                    <h1> {{data[d]}} </h1><br/>
-                    <p> <a href="{{links[d]}}">View Suggested Article</a></p>
+                  <p id="title"> <strong>Suggested Article: </strong>{{titles[d]}} </p>
+                  <p id="description"> {{descriptions[d]}} </p>
+                  <p> <a href="{{links[d]}}">Read More</a></p>
                 </div>
+                {% endif %}
                 <br>
-              </div>
+            </div>
             {% endfor %}
         {% endif %}
         <br>

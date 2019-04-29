@@ -75,17 +75,15 @@ color: #4285F4;
 /* people results CSS */
 
 .person-card {
-  flex: 1;
-  order: 1;
-   margin-left: 350px;
+  margin-left: 350px;
   margin-right: 350px;
   font-family: Avenir;
-  margin-top: 25px;
-  text-align: center;
+  margin-top: 5px;
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 2px;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding: 20px;
   transition: 0.3s;
 }
 
@@ -94,15 +92,29 @@ color: #4285F4;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
-.person-card h1 {
+
+#name {
+  font-family: Avenir;
   font-weight: 600;
-  font-size: 25px;
+  margin-top: 20px;
+  font-size: 30px;
 }
 
 .person-card p {
   margin-top: 20px;
   font-weight: 500;
   font-size: 16px;
+}
+
+#title {
+  margin-left: 20px;
+  text-align: left;
+  font-size: 20px;
+}
+
+#description {
+  margin-left: 20px;
+  text-align: left;
 }
 
 .flex-cards {

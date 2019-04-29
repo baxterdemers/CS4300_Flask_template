@@ -10,8 +10,10 @@ password = 'dnmSWIMS!'
 database = 'postgres'
 names = []
 links_dict = {}
+title_dict = {}
+description_dict = {}
 
-data = requests.get('https://newsapi.org/v2/sources?apiKey=954f0fb443054555a2ed307e8cc1dedd').json()
+data = requests.get('https://newsapi.org/v2/sources?apiKey=c36e56b19bcc431ca345b8d3f19977d6').json()
 sources = set()
 for source in data["sources"]:
     sources.add(source["name"].lower())
@@ -29,15 +31,19 @@ def connect(doc_id_lst):
         print("You are connected to - ", record,"\n")
 
         tup_str = tuple(doc_id_lst)
-        postgreSQL_select_Query = "select * from articles where doc_id in %(tup_str)s"
+        postgreSQL_select_Query = "select * from production_tbl where doc_id in %(tup_str)s"
         cursor.execute(postgreSQL_select_Query, {'tup_str': tup_str})
         document_records = cursor.fetchall()
 
         for row in document_records:
             names_list = row[-1].split(',')
             link = row[5]
+            title = row[2]
+            description = row[3]
             for name in names_list:
                 links_dict[name] = link
+                title_dict[name] = title
+                description_dict[name] = description
             names.extend(names_list)
 
         print("Data read successfully in PostgreSQL ")
@@ -92,7 +98,7 @@ def get_doc_ids (inverted_index, word_to_index, index_to_word, u, query):
 
     return doc_id_list
 
-def get_names_from_doc_ids(doc_ids,query):
+def get_names_from_doc_ids(doc_ids, query=None):
     if (len(doc_ids) != 0 and query):
         connect(doc_ids)
         c = Counter(names)
@@ -156,9 +162,28 @@ def create_link_file(doc_id_list, c):
             f.write("\n")
     f.close()
 
+def create_title_file(doc_id_list, c):
+    f = open("title_list.txt","w+")
+    for name in c.most_common(20):
+        if (name[0] != ""):
+            title = title_dict[name[0]]
+            f.write(str(title))
+            f.write("\n")
+    f.close()
+
+def create_desc_file(doc_id_list, c):
+    f = open("desc_list.txt","w+")
+    for name in c.most_common(20):
+        if (name[0] != ""):
+            description = description_dict[name[0]]
+            f.write(str(description))
+            f.write("\n")
+    f.close()
+
 def process_query(inverted_index, word_to_index, index_to_word, u, query=None):
     doc_id_list = get_doc_ids(inverted_index, word_to_index, index_to_word, u, query)
     c = get_names_from_doc_ids(doc_id_list, query)
     create_link_file(doc_id_list, c)
+    create_title_file(doc_id_list, c)
+    create_desc_file(doc_id_list, c)
     names.clear()
-

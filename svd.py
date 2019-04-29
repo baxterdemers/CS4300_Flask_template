@@ -28,13 +28,13 @@ def connect():
         record = cursor.fetchone()
         print("You are connected to - ", record,"\n")
 
-        postgreSQL_select_Query = "select * from articles"
+        postgreSQL_select_Query = "select * from production_tbl"
         cursor.execute(postgreSQL_select_Query)
         document_records = cursor.fetchall()
 
         print(len(document_records))
         for row in document_records:
-            documents.append(row[4])  #append content
+            documents.append(row[1])  #append content
             #print("doc_id = ", row[0], )
             #print("content = ", row[4], "\n")
         print("Data read successfully in PostgreSQL ")
@@ -68,4 +68,4 @@ def svd():
     with open('u_matrix.pickle', 'wb') as handle:
         pickle.dump(u, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-#svd()
+svd()
