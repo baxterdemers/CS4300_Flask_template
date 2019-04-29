@@ -98,7 +98,7 @@ def get_doc_ids (inverted_index, word_to_index, index_to_word, u, query):
 
     return doc_id_list
 
-def get_names_from_doc_ids(doc_ids, query=None):
+def get_names_from_doc_ids(doc_ids, query):
     if (len(doc_ids) != 0 and query):
         connect(doc_ids)
         c = Counter(names)
@@ -126,7 +126,7 @@ def get_names_from_doc_ids(doc_ids, query=None):
                         closest_match = name_prime
                         min_occurence_delta = occurence_delta
                         match_occurences = npr_count
-                        
+
             if closest_match != "":
                 print("closest match: {}".format(closest_match))
                 if match_occurences/name_count > .25:

@@ -74,5 +74,13 @@ def search():
 		with open('desc_list.txt') as f:
 			for line in f:
 					desc_list.append(line)
-	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=people_names, links=links_list, topics=topics, titles=titles_list, descriptions=desc_list)
+		for i, person_i in enumerate(people_names):
+			for j, person_j in enumerate(people_names):
+				if i!=j and person_i in person_j:
+					people_names.pop(i)
+					links_list.pop(i)
+					titles_list.pop(i)
+					desc_list.pop(i)
+					break
 
+	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=people_names, links=links_list, topics=topics, titles=titles_list, descriptions=desc_list)

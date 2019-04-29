@@ -55,7 +55,7 @@
             <h1 id="query-msg">{{output_message}}</h1>
             <div class="person-container">
             {% for d in range(data | length) %}
-              {% if data|length == descriptions|length %}
+              {% if d < data | length %}
                 <br>
                 <h1 id="name"> {{data[d]}} </h1><br/>
                 <div class="person-card">
